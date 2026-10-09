@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FaceMagic AI</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #10051f, #32104b, #071a35);
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 25px 15px;
+      background: #160b25;
+      border-bottom: 1px solid #8c52ff;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #d7a6ff;
+      font-size: 30px;
+    }
+
+    header p {
+      color: #ddd;
+      margin-bottom: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 25px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #e3c0ff;
+      font-size: 21px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 8px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #8056a9;
+      background: #21132f;
+      color: white;
+      font-size: 16px;
+    }
+
+    input[type="file"] {
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
+      border: 0;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #8e44ff, #d34cff);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .preview {
+      display: none;
+      width: 100%;
+      margin-top: 15px;
+      border-radius: 12px;
+    }
+
+    .note {
+      color: #d6c7e4;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #c7b8d6;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>✨ FaceMagic AI</h1>
+  <p>अपनी फोटो से क्रिएटिव वीडियो बनाने की शुरुआत करें</p>
+</header>
+
+<main class="container">
+
+  <section class="card">
+    <h2>📸 अपनी फोटो चुनें</h2>
+
+    <label for="photo">फोटो अपलोड करें</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <img id="preview" class="preview" alt="आपकी चुनी हुई फोटो">
+
+    <label for="style">वीडियो स्टाइल चुनें</label>
+    <select id="style">
+      <option value="romantic">❤️ Romantic</option>
+      <option value="cinematic">🎬 Cinematic</option>
+      <option value="birthday">🎂 Birthday</option>
+      <option value="devotional">🙏 Devotional</option>
+      <option value="sad">💔 Sad Status</option>
+    </select>
+
+    <label for="prompt">वीडियो के बारे में लिखें</label>
+    <textarea id="prompt" rows="3"
+      placeholder="जैसे: मेरी फोटो से सुंदर सिनेमैटिक वीडियो बनाओ"></textarea>
+
+    <button id="createButton" type="button">
+      ✨ वीडियो बनाने की तैयारी करें
+    </button>
+
+    <p id="message" class="note">
+      पहले फोटो चुनें और अपनी पसंद का स्टाइल सेट करें।
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>🎥 आपका वीडियो</h2>
+    <p class="note">
+      यह शुरुआती वेबसाइट डिजाइन है। असली AI वीडियो बनाने के लिए
+      आगे वीडियो जनरेशन API जोड़नी होगी।
+    </p>
+    <video id="video" controls playsinline
+      style="display:none;width:100%;border-radius:12px"></video>
+  </section>
+
+</main>
+
+<footer>
+  FaceMagic AI © 2026
+</footer>
+
+<script>
+  const photoInput = document.getElementById("photo");
+  const preview = document.getElementById("preview");
+  const message = document.getElementById("message");
+
+  photoInput.addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      message.textContent = "कृपया सही फोटो चुनें।";
+      return;
+    }
+
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = "block";
+    message.textContent = "फोटो चुन ली गई है। अब स्टाइल चुनें।";
+  });
+
+  document.getElementById("createButton").addEventListener("click", function () {
+    if (!photoInput.files.length) {
+      message.textContent = "पहले अपनी फोटो अपलोड करें।";
+      return;
+    }
+
+    const style = document.getElementById("style").value;
+    const prompt = document.getElementById("prompt").value.trim();
+
+    message.textContent =
+      "आपकी फोटो तैयार है! स्टाइल: " + style +
+      (prompt ? "। आपका विवरण: " + prompt : "") +
+      "। असली AI वीडियो बनाने की सुविधा अभी जोड़नी बाकी है।";
+  });
+</script>
+
+</body>
+  </html>
